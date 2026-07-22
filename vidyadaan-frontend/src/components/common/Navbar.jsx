@@ -1,5 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import {
+  FaBars,
+  FaTimes,
+  FaUserCircle,
+  FaSignInAlt,
+} from "react-icons/fa";
+
+import logo from "../../assets/logo/logo.svg";
 
 const navLinks = [
   { label: "Home", to: "/" },
@@ -14,58 +22,138 @@ function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-        <Link to="/" className="text-xl font-semibold tracking-wide text-slate-800">
-          VIDYADAAN
-        </Link>
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-lg shadow-md border-b border-slate-200">
 
-        <nav className="hidden items-center gap-6 text-sm font-medium text-slate-600 md:flex">
-          {navLinks.map((link) => (
-            <Link key={link.to} to={link.to} className="transition hover:text-slate-900">
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <div className="hidden items-center gap-3 md:flex">
-          <Link to="/login" className="rounded-md px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100">
-            Login
+        <div className="flex items-center justify-between h-20">
+
+          {/* Logo */}
+
+          <Link
+            to="/"
+            className="flex items-center gap-3"
+          >
+            <img
+              src={logo}
+              alt="VIDYADAAN Logo"
+              className="h-14 w-14 object-contain rounded-full shadow-md bg-white p-1"
+            />
+
+            <div>
+
+              <h1 className="text-2xl font-bold text-blue-700">
+                VIDYADAAN
+              </h1>
+
+              <p className="text-xs text-slate-500">
+                Smart School Donation System
+              </p>
+
+            </div>
+
           </Link>
-          <Link to="/register" className="rounded-md bg-slate-800 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-700">
-            Register
-          </Link>
-        </div>
 
-        <button
-          type="button"
-          className="rounded-md border border-slate-200 p-2 text-slate-700 md:hidden"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label="Toggle navigation"
-        >
-          <span className="text-xl">☰</span>
-        </button>
-      </div>
+          {/* Desktop Navigation */}
 
-      {isOpen && (
-        <div className="border-t border-slate-200 bg-white px-4 py-4 md:hidden">
-          <div className="flex flex-col gap-3 text-sm font-medium text-slate-600">
+          <nav className="hidden md:flex items-center gap-8">
+
             {navLinks.map((link) => (
-              <Link key={link.to} to={link.to} className="transition hover:text-slate-900" onClick={() => setIsOpen(false)}>
+
+              <Link
+                key={link.to}
+                to={link.to}
+                className="font-medium text-slate-700 hover:text-blue-600 transition duration-300"
+              >
                 {link.label}
               </Link>
+
             ))}
-            <div className="flex gap-2 pt-2">
-              <Link to="/login" className="rounded-md px-3 py-2 text-slate-700 hover:bg-slate-100" onClick={() => setIsOpen(false)}>
-                Login
-              </Link>
-              <Link to="/register" className="rounded-md bg-slate-800 px-3 py-2 text-white hover:bg-slate-700" onClick={() => setIsOpen(false)}>
-                Register
-              </Link>
-            </div>
+
+          </nav>
+
+          {/* Desktop Buttons */}
+
+          <div className="hidden md:flex items-center gap-3">
+
+            <Link
+              to="/login"
+              className="flex items-center gap-2 px-5 py-2 rounded-lg border border-slate-300 hover:bg-slate-100 transition"
+            >
+              <FaSignInAlt />
+              Login
+            </Link>
+
+            <Link
+              to="/register"
+              className="flex items-center gap-2 px-5 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 shadow-lg transition"
+            >
+              <FaUserCircle />
+              Register
+            </Link>
+
           </div>
+
+          {/* Mobile Button */}
+
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden text-2xl text-slate-700"
+          >
+            {isOpen ? <FaTimes /> : <FaBars />}
+          </button>
+
         </div>
+
+      </div>
+
+      {/* Mobile Menu */}
+
+      {isOpen && (
+
+        <div className="md:hidden bg-white border-t shadow-lg">
+
+          <div className="flex flex-col p-5 gap-4">
+
+            {navLinks.map((link) => (
+
+              <Link
+                key={link.to}
+                to={link.to}
+                onClick={() => setIsOpen(false)}
+                className="font-medium text-slate-700 hover:text-blue-600"
+              >
+                {link.label}
+              </Link>
+
+            ))}
+
+            <hr />
+
+            <Link
+              to="/login"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-2 rounded-lg border px-4 py-3 hover:bg-slate-100"
+            >
+              <FaSignInAlt />
+              Login
+            </Link>
+
+            <Link
+              to="/register"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-2 rounded-lg bg-blue-600 text-white px-4 py-3 hover:bg-blue-700"
+            >
+              <FaUserCircle />
+              Register
+            </Link>
+
+          </div>
+
+        </div>
+
       )}
+
     </header>
   );
 }
